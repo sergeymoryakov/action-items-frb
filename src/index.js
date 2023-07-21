@@ -317,13 +317,20 @@ function handleDeleteButtonClick(event) {
         return;
     }
 
-    // Update hidden status for item with relevant id:
-    const item = actionItems.find((item) => item.id === itemId);
-    if (item) {
+    // // Update hidden status for item with relevant id:
+    // const item = actionItems.find((item) => item.id === itemId);
+
+    try {
+        // Delete from Firestore
         deleteItemFromFireStore(itemId);
+
+        // If successful, delete from local array
+        actionItems = actionItems.filter((item) => item.id !== itemId);
         console.log(
             `Document with ID: ${itemId} has been deleted from Firestore`
         );
+    } catch (error) {
+        console.error(`Error deleting document with ID: ${itemId}`, error);
     }
     renderTrashList();
 }
