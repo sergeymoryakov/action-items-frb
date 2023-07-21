@@ -311,7 +311,8 @@ function handleHideButtonClick(event) {
         console.log("Element updated in Firestore.");
     }
     renderActiveList();
-    clearTrashList();
+    // clearTrashList();
+    renderTrashList();
 }
 
 // Event handler for delete button click event
