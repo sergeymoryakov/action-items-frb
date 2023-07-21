@@ -1,4 +1,6 @@
-Copy code
+# Ignore the cache folder
+.cache/
+
 # Ignore the dist folder
 dist/
 
