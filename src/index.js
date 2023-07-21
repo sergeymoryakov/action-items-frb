@@ -1,6 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, updateDoc } from "firebase/firestore";
-import { collection, doc, setDoc, addDoc, getDocs } from "firebase/firestore";
+import {
+    getFirestore,
+    updateDoc,
+    collection,
+    doc,
+    setDoc,
+    deleteDoc,
+    getDocs,
+} from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
@@ -70,6 +77,14 @@ async function updateItemInFirestore(itemId, updatedFields) {
         console.log("Document successfully updated in Firestore!");
     } catch (error) {
         console.error("Error updating document in Firestore: ", error);
+    }
+}
+
+async function deleteItemFromFireStore(itemId) {
+    try {
+        await deleteDoc(doc(db, DB_NAME, itemId));
+    } catch (error) {
+        console.error("Error deleting document from Firestore", error);
     }
 }
 
@@ -164,18 +179,24 @@ function createTrashItem(item) {
         trashItem.className = "display-item-wrapper";
     }
 
+    const restoreButton = document.createElement("button");
+    restoreButton.className = "restore-btn";
+    restoreButton.id = `btn_${item.id}`;
+    // restoreButton.innerText = '';
+
     const label = document.createElement("label");
     label.className = "display-item";
     label.htmlFor = `checkbox_${item.id}`;
     label.innerText = item.text;
 
-    const hideButton = document.createElement("button");
-    hideButton.className = "restore-btn";
-    hideButton.id = `btn_${item.id}`;
-    // hideButton.innerText = '';
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "item-delete-btn";
+    deleteButton.id = `delete-btn_${item.id}`;
+    // deleteButton.innerText = '';
 
+    trashItem.appendChild(restoreButton);
     trashItem.appendChild(label);
-    trashItem.appendChild(hideButton);
+    trashItem.appendChild(deleteButton);
 
     return trashItem;
 }
@@ -227,9 +248,18 @@ function renderTrashList() {
         }
     });
 
+    if (trashContainerNode.innerHTML == "") {
+        trashContainerNode.innerText = "No items in trash bin.";
+    }
+
     const restoreButtons = document.querySelectorAll(".restore-btn");
     restoreButtons.forEach((button) => {
         button.addEventListener("click", handleRestoreButtonClick);
+    });
+
+    const deleteButtons = document.querySelectorAll(".item-delete-btn");
+    deleteButtons.forEach((button) => {
+        button.addEventListener("click", handleDeleteButtonClick);
     });
 }
 
@@ -255,13 +285,12 @@ function handleCheckboxChange(event) {
 // Event handler for hide button click event
 function handleHideButtonClick(event) {
     const button = event.target;
-    // DONE: remove parseInt for TBS:
-    // const itemId = parseInt(button.id.split("_")[1]);
     const itemId = button.id.split("_")[1];
 
-    if (!confirm("Please confirm moving item to trash bin")) {
-        return;
-    }
+    //  Confirm radiness to delete
+    // if (!confirm("Please confirm moving item to trash bin")) {
+    //     return;
+    // }
 
     // Update hidden status for item with relevant id:
     const item = actionItems.find((item) => item.id === itemId);
@@ -277,10 +306,30 @@ function handleHideButtonClick(event) {
     clearTrashList();
 }
 
+// Event handler for delete button click event
+function handleDeleteButtonClick(event) {
+    const button = event.target;
+    const itemId = button.id.split("_")[1];
+    console.log(`request to delete item with id: ${itemId}`);
+
+    //  Confirm radiness to delete
+    if (!confirm("Please confirm permanent deletion.")) {
+        return;
+    }
+
+    // Update hidden status for item with relevant id:
+    const item = actionItems.find((item) => item.id === itemId);
+    if (item) {
+        deleteItemFromFireStore(itemId);
+        console.log(
+            `Document with ID: ${itemId} has been deleted from Firestore`
+        );
+    }
+    renderTrashList();
+}
+
 function handleRestoreButtonClick(event) {
     const button = event.target;
-    // DONE: remove parseInt for TBS:
-    // const itemId = parseInt(button.id.split("_")[1]);
     const itemId = button.id.split("_")[1];
 
     // Update hidden status for item with relevant id:

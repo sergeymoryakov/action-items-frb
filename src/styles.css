@@ -88,6 +88,7 @@ h1 {
     padding: 0 10px;
 }
 
+.item-delete-btn,
 .item-hide-btn {
     width: 2em;
     height: 2em;
