@@ -20,6 +20,7 @@ const db = getFirestore(app);
 
 let actionItems = [];
 const DB_NAME = "actionItems";
+const TRASH_OPEN_CLASSNAME = "trash-bin-open";
 
 const newItemInputNode = document.getElementById("newItemInput");
 const newItemBtnNode = document.getElementById("newItemBtn");
@@ -92,7 +93,15 @@ newItemBtnNode.addEventListener("click", function () {
 });
 
 trashSwitchNode.addEventListener("click", function () {
-    renderTrashList();
+    trashSwitchNode.classList.toggle(TRASH_OPEN_CLASSNAME);
+    const binOpen = trashSwitchNode.className.includes(TRASH_OPEN_CLASSNAME);
+    if (!binOpen) {
+        clearTrashList();
+    } else {
+        renderTrashList();
+    }
+    console.log(trashSwitchNode.className);
+    return;
 });
 
 // Get new item from user
