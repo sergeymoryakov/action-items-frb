@@ -7,6 +7,9 @@ import {
     setDoc,
     deleteDoc,
     getDocs,
+    serverTimestamp,
+    query,
+    orderBy,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
@@ -43,8 +46,12 @@ async function initializeAppData() {
 }
 
 async function get(COLLECTION_NAME) {
+    const ref = collection(db, COLLECTION_NAME);
+    const q = query(ref, orderBy("createdAt", "desc"));
+
     const actionItemsDb = [];
-    const querySnapshot = await getDocs(collection(db, COLLECTION_NAME));
+    const querySnapshot = await getDocs(q);
+
     querySnapshot.forEach((doc) => {
         itemDb = {};
         itemDb.id = doc.id;
@@ -126,6 +133,7 @@ function getItemFromUser() {
         text: newItemInputNode.value,
         completed: false,
         hidden: false,
+        createdAt: serverTimestamp(),
     };
     return newItemFromCustomer;
 }
