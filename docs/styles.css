@@ -1,0 +1,131 @@
+:root {
+    --clr-almost-white: #f5f5f5;
+    --clr-almost-black: #333333;
+    --clr-gray: #6c757d;
+    --clr-light-gray: lightgray;
+    --clr-enter: #007bff;
+    --clr-success: #28a745;
+    --clr-alert: #dc3545;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 1em;
+    line-height: 1em;
+    color: var(--clr-almost-black);
+    background-color: var(--clr-almost-black);
+}
+
+h1 {
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    font-weight: 700;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 30px 15px;
+    max-width: 600px;
+    color: var(--clr-back);
+    background-color: var(--clr-almost-white);
+    border: 1px solid var(--clr-almost-white);
+    border-radius: 10px;
+}
+
+.new-item {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.new-item-input {
+    padding: 5px;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.new-item-btn {
+    width: 2em;
+    height: 2em;
+    background-image: url(img_add_task.png);
+    background-size: contain;
+    background-color: transparent;
+    border: 1px solid var(--clr-almost-black);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.new-item-btn:hover {
+    opacity: 0.5;
+}
+
+.display-item-wrapper {
+    margin-bottom: 3px;
+    height: 2.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--clr-almost-black);
+    border-radius: 5px;
+}
+
+.item-checkbox {
+    width: 2em;
+    height: 2em;
+}
+
+.display-item {
+    display: block;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.item-delete-btn,
+.item-hide-btn {
+    width: 2em;
+    height: 2em;
+    background-image: url(img_close.png);
+    background-size: contain;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.completed {
+    text-decoration: line-through;
+    background-color: var(--clr-light-gray);
+    opacity: 0.5;
+}
+
+.trash-switch {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 2em;
+    height: 2em;
+    background-image: url(img_delete.png);
+    background-size: contain;
+    background-color: transparent;
+    border: 1px solid var(--clr-almost-black);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.restore-btn {
+    width: 2em;
+    height: 2em;
+    background-image: url(img_restore_from_trash.png);
+    background-size: contain;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
