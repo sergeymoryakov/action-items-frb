@@ -22,10 +22,8 @@ const firebaseConfig = {
     appId: "1:453868384210:web:b2d8bd1b94e38bd8f9a20b",
 };
 
-// Initialize Firebase
+// Initialize Firebase and Cloud Firestore
 const app = initializeApp(firebaseConfig);
-
-// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
 let actionItems = [];
@@ -39,6 +37,36 @@ const trashSwitchNode = document.getElementById("trashSwitch");
 const trashContainerNode = document.getElementById("trashContainer");
 
 initializeAppData();
+
+// Event listener for new item addition
+newItemBtnNode.addEventListener("click", function () {
+    const itemFromUser = getItemFromUser();
+    if (!itemFromUser.text) {
+        alert("Please enter the field");
+        return;
+    }
+
+    // add new item to items list
+    addItem(itemFromUser);
+
+    // update Firebase
+    addItemToFirestore(itemFromUser);
+
+    clearInputField();
+    renderActiveList();
+});
+
+trashSwitchNode.addEventListener("click", function () {
+    trashSwitchNode.classList.toggle(TRASH_OPEN_CLASSNAME);
+    const binOpen = trashSwitchNode.className.includes(TRASH_OPEN_CLASSNAME);
+    if (!binOpen) {
+        clearTrashList();
+    } else {
+        renderTrashList();
+    }
+    console.log(trashSwitchNode.className);
+    return;
+});
 
 async function initializeAppData() {
     actionItems = await get(DB_NAME);
@@ -58,6 +86,7 @@ async function get(COLLECTION_NAME) {
         itemDb.text = doc.data().text;
         itemDb.completed = doc.data().completed;
         itemDb.hidden = doc.data().hidden;
+        itemDb.createdAt = doc.data().createdAt;
         actionItemsDb.push(itemDb);
         console.log(
             `Document "${doc.data().text}", id = "${doc.id}" have been read.`
@@ -95,37 +124,6 @@ async function deleteItemFromFireStore(itemId) {
     }
 }
 
-// Event listener for new item
-newItemBtnNode.addEventListener("click", function () {
-    const itemFromUser = getItemFromUser();
-    if (!itemFromUser.text) {
-        alert("Please enter the field");
-        return;
-    }
-
-    // add new item to items list
-    addItem(itemFromUser);
-
-    // update Firebase
-    addItemToFirestore(itemFromUser);
-
-    clearInputField();
-    clearTrashList();
-    renderActiveList();
-});
-
-trashSwitchNode.addEventListener("click", function () {
-    trashSwitchNode.classList.toggle(TRASH_OPEN_CLASSNAME);
-    const binOpen = trashSwitchNode.className.includes(TRASH_OPEN_CLASSNAME);
-    if (!binOpen) {
-        clearTrashList();
-    } else {
-        renderTrashList();
-    }
-    console.log(trashSwitchNode.className);
-    return;
-});
-
 // Get new item from user
 function getItemFromUser() {
     const newItemFromCustomer = {
@@ -142,12 +140,11 @@ function addItem(newActionItem) {
     actionItems.push(newActionItem);
 }
 
-// Generate unique id has not been used in array yet:
 function generateUniqueId() {
     return uuidv4();
 }
 
-// Create list item template for rendering
+// Create a list item element for rendering
 function createListItem(item) {
     const listItem = document.createElement("li");
     if (item.completed) {
@@ -217,7 +214,10 @@ function clearActiveList() {
     return (listContainerNode.innerHTML = "");
 }
 
-// Render the list
+function clearTrashList() {
+    return (trashContainerNode.innerHTML = "");
+}
+
 function renderActiveList() {
     clearActiveList();
 
@@ -239,10 +239,6 @@ function renderActiveList() {
     hideButtons.forEach((button) => {
         button.addEventListener("click", handleHideButtonClick);
     });
-}
-
-function clearTrashList() {
-    return (trashContainerNode.innerHTML = "");
 }
 
 function renderTrashList() {
