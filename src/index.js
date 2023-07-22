@@ -26,48 +26,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let actionItems = [];
+// Constants and Global Variables
 const DB_NAME = "actionItems";
 const TRASH_OPEN_CLASSNAME = "trash-bin-open";
+let actionItems = [];
 
+// DOM Elements
 const newItemInputNode = document.getElementById("newItemInput");
 const newItemBtnNode = document.getElementById("newItemBtn");
 const listContainerNode = document.getElementById("listContainer");
 const trashSwitchNode = document.getElementById("trashSwitch");
 const trashContainerNode = document.getElementById("trashContainer");
 
-initializeAppData();
-
-// Event listener for new item addition
-newItemBtnNode.addEventListener("click", function () {
-    const itemFromUser = getItemFromUser();
-    if (!itemFromUser.text) {
-        alert("Please enter the field");
-        return;
-    }
-
-    // add new item to items list
-    addItem(itemFromUser);
-
-    // update Firebase
-    addItemToFirestore(itemFromUser);
-
-    clearInputField();
-    renderActiveList();
-});
-
-trashSwitchNode.addEventListener("click", function () {
-    trashSwitchNode.classList.toggle(TRASH_OPEN_CLASSNAME);
-    const binOpen = trashSwitchNode.className.includes(TRASH_OPEN_CLASSNAME);
-    if (!binOpen) {
-        clearTrashList();
-    } else {
-        renderTrashList();
-    }
-    console.log(trashSwitchNode.className);
-    return;
-});
-
+// Utility Functions
 async function initializeAppData() {
     actionItems = await get(DB_NAME);
     renderActiveList();
@@ -124,7 +95,6 @@ async function deleteItemFromFireStore(itemId) {
     }
 }
 
-// Get new item from user
 function getItemFromUser() {
     const newItemFromCustomer = {
         id: generateUniqueId(),
@@ -176,6 +146,7 @@ function createListItem(item) {
     return listItem;
 }
 
+// Create a trash-list item element for rendering
 function createTrashItem(item) {
     const trashItem = document.createElement("li");
     if (item.completed) {
@@ -356,4 +327,49 @@ function handleRestoreButtonClick(event) {
     }
     renderActiveList();
     renderTrashList();
+}
+
+// Main initialization
+function initializeAppMain() {
+    initializeAppData();
+
+    // Event listener for new item addition
+    newItemBtnNode.addEventListener("click", function () {
+        const itemFromUser = getItemFromUser();
+        if (!itemFromUser.text) {
+            alert("Please enter the field");
+            return;
+        }
+
+        // add new item to items list
+        addItem(itemFromUser);
+
+        // update Firebase
+        addItemToFirestore(itemFromUser);
+
+        clearInputField();
+        renderActiveList();
+    });
+
+    trashSwitchNode.addEventListener("click", function () {
+        trashSwitchNode.classList.toggle(TRASH_OPEN_CLASSNAME);
+        const binOpen =
+            trashSwitchNode.className.includes(TRASH_OPEN_CLASSNAME);
+        if (!binOpen) {
+            clearTrashList();
+        } else {
+            renderTrashList();
+        }
+        console.log(trashSwitchNode.className);
+        return;
+    });
+}
+
+try {
+    initializeAppMain();
+} catch (error) {
+    console.error("An error occured during app initialization:", error);
+    alert(
+        "Something went wrong. Please contact the app admin or try again later."
+    );
 }

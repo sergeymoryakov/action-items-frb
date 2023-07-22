@@ -1,3 +1,6 @@
 # action-items
 
-A simple action items list to practice Firebase
+Action Items List Application
+
+Technologies Used:
+HTML, CSS, JavaScript, Parcel, Firebase
