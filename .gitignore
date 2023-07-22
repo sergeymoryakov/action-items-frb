@@ -11,3 +11,4 @@ node_modules/
 .parcel-cache/
 
 # Ignore specific files
+.DS_Store
