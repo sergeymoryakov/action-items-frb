@@ -21,7 +21,7 @@ Persistent Data: All data is stored and retrieved from Firebase, ensuring that u
 
 ### Clone the Repository:
 
-git clone [repository_url]
+<code>git clone [repository_url]</code>
 
 ### Navigate to the project directory:
 
