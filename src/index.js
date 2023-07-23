@@ -52,7 +52,7 @@ async function get(COLLECTION_NAME) {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-        itemDb = {};
+        const itemDb = {};
         itemDb.id = doc.id;
         itemDb.text = doc.data().text;
         itemDb.completed = doc.data().completed;
