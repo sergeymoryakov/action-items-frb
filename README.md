@@ -4,18 +4,22 @@ This application allows users to manage their action items with capabilities to 
 
 ## Technologies Used:
 
-HTML
-CSS
-JavaScript
-Parcel
-Firebase
+<ul>
+<li>HTML</li>
+<li>CSS</li>
+<li>JavaScript</li>
+<li>Parcel</li>
+<li>Firebase</li>
+</ul>
 
 ## Features:
 
-Add New Action Items: Users can add new tasks or action items.
-Mark as Completed: Action items can be marked as completed.
-Recycle Bin: Completed or unwanted items can be moved to the recycle bin.
-Persistent Data: All data is stored and retrieved from Firebase, ensuring that user data is always available across sessions.
+<ul>
+<li>Add New Action Items: Users can add new tasks or action items.</li>
+<li>Mark as Completed: Action items can be marked as completed.</li>
+<li>Recycle Bin: Completed or unwanted items can be moved to the recycle bin.</li>
+<li>Persistent Data: All data is stored and retrieved from Firebase, ensuring that user data is always available across sessions.</li>
+</ul>
 
 ## Setup and Installation:
 
@@ -25,26 +29,28 @@ Persistent Data: All data is stored and retrieved from Firebase, ensuring that u
 
 ### Navigate to the project directory:
 
-cd [project_folder_name]
+<code>cd [project_folder_name]</code>
 
 ### Install Dependencies (assuming you have Node.js and npm installed):
 
-npm install
+<code>npm install</code>
 
 ### Run the Application (using Parcel or your preferred method):
 
-parcel index.html
+<code>parcel index.html</code>
 
-The application should now be running on http://localhost:1234/ or the respective port provided by your tool.
+The application should now be running on <code>http://localhost:1234/</code> or the respective port provided by your tool.
 
 ## Firebase Setup:
 
 To connect with Firebase:
 
-Create a new project in Firebase.
-Navigate to Firestore and create a new collection named actionItems.
-Under project settings, get your Firebase configuration object.
-Replace the firebaseConfig object in index.js with your configuration.
+<ul>
+<li>Create a new project in Firebase.</li>
+<li>Navigate to Firestore and create a new collection named actionItems.</li>
+<li>Under project settings, get your Firebase configuration object.</li>
+<li>Replace the firebaseConfig object in index.js with your configuration.</li>
+</UL>
 
 ## Contributing:
 
@@ -52,4 +58,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## License:
 
-MIT, https://choosealicense.com/licenses/mit/
+[MIT](https://choosealicense.com/licenses/mit)
+[MIT](https://choosealicense.com/licenses/mit/)
