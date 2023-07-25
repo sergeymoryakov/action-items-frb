@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
     apiKey: "AIzaSyBf5QBUUQ3EZGXw-pEKsBAo4J2ssdNCOv4",
     authDomain: "action-items-firebase.firebaseapp.com",
@@ -34,20 +33,19 @@ class Model {
     }
 
     // ... other Firebase interaction methods (add, update, delete) will go here ...
-}
 
     addItemToFirestore(item) {
         // ... existing code to add item to Firestore ...
     }
-    
+
     updateItemInFirestore(item) {
         // ... existing code to update item in Firestore ...
     }
-    
+
     deleteItemFromFirestore(itemId) {
         // ... existing code to delete item from Firestore ...
     }
-    
+
     // ... any other methods related to data manipulation and Firebase operations ...
 }
 
@@ -65,16 +63,15 @@ class View {
     }
 
     // ... other DOM interaction methods will go here ...
-}
 
     renderTrashList(actionItems) {
         // ... existing rendering code using actionItems ...
     }
-    
+
     clearInputField() {
         // ... existing code to clear input field ...
     }
-    
+
     // ... other methods related to DOM interactions and UI rendering ...
 }
 
@@ -91,19 +88,18 @@ class Controller {
     }
 
     // ... other methods that manage the flow between Model and View will go here ...
-}
 
     handleNewItemButtonClick() {
         // Logic to handle when a new item is added.
         // This should involve getting data from the view, updating the model, and then updating the view.
     }
-    
+
     handleCheckboxChange() {
         // Logic to handle checkbox changes (marking items as complete/incomplete).
     }
-    
+
     // ... other event handling methods and logic to manage the flow between Model and View ...
-    
+
     attachEventListeners() {
         // Attach event listeners to DOM elements.
         // For instance:

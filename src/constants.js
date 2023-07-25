@@ -6,3 +6,7 @@ export const firebaseKeys = {
     messagingSenderId: "453868384210",
     appId: "1:453868384210:web:b2d8bd1b94e38bd8f9a20b",
 };
+
+// Constants and Global Variables
+export const DB_NAME = "actionItems";
+export const TRASH_OPEN_CLASSNAME = "trash-bin-open";
