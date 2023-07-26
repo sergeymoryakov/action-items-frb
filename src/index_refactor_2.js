@@ -39,7 +39,12 @@ class View {
         this.listContainerNode = document.getElementById("listContainer");
         this.trashSwitchBtnNode = document.getElementById("trashSwitchBtn");
         this.trashContainerNode = document.getElementById("trashContainer");
-        this.attachEventListeners();
+        this.newItemBtnNode.addEventListener("click", () =>
+            this.controller.handleNewItemBtn()
+        );
+        this.trashSwitchBtnNode.addEventListener("click", () =>
+            this.controller.handleTrashSwitchBtn()
+        );
     }
 
     clearActiveList = () => {
@@ -131,15 +136,15 @@ class View {
         // Set event listeners for checkboxes and btns
         const checkboxes = document.querySelectorAll(".item-checkbox");
         checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener("change", (event) =>
-                this.controller.handleCheckboxChange(event)
+            checkbox.addEventListener("change", () =>
+                this.controller.handleCheckboxChange()
             );
         });
 
         const hideButtons = document.querySelectorAll(".item-hide-btn");
         hideButtons.forEach((button) => {
-            button.addEventListener("click", (event) =>
-                this.controller.handleHideButtonClick(event)
+            button.addEventListener("click", () =>
+                this.controller.handleHideButtonClick()
             );
         });
     };
@@ -161,26 +166,20 @@ class View {
 
         const restoreButtons = document.querySelectorAll(".restore-btn");
         restoreButtons.forEach((button) => {
-            button.addEventListener("click", (event) =>
-                this.controller.handleRestoreButtonClick(event)
+            button.addEventListener(
+                "click",
+                this.controller.handleRestoreButtonClick()
             );
         });
 
         const deleteButtons = document.querySelectorAll(".item-delete-btn");
         deleteButtons.forEach((button) => {
-            button.addEventListener("click", (event) =>
-                this.controller.handleDeleteButtonClick(event)
+            button.addEventListener(
+                "click",
+                this.controller.handleDeleteButtonClick()
             );
         });
     };
-    attachEventListeners() {
-        this.newItemBtnNode.addEventListener("click", () =>
-            this.controller.handleNewItemBtn()
-        );
-        this.trashSwitchBtnNode.addEventListener("click", () =>
-            this.controller.handleTrashSwitchBtn()
-        );
-    }
 }
 
 // Module Model
@@ -245,7 +244,7 @@ class Model {
 class Controller {
     constructor() {
         this.model = new Model();
-        this.view = new View(this);
+        this.view = new View();
     }
 
     initializeAppData = async () => {
@@ -255,7 +254,7 @@ class Controller {
 
     getItemFromUser = () => {
         const newItemFromCustomer = {
-            id: this.generateUniqueId(),
+            id: generateUniqueId(),
             text: this.view.newItemInputNode.value,
             completed: false,
             hidden: false,
@@ -362,7 +361,7 @@ class Controller {
     }
 
     handleNewItemBtn = () => {
-        const itemFromUser = this.getItemFromUser();
+        const itemFromUser = getItemFromUser();
         if (!itemFromUser.text) {
             alert("Please enter the field");
             return;
