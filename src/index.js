@@ -35,7 +35,7 @@ let actionItems = [];
 const newItemInputNode = document.getElementById("newItemInput");
 const newItemBtnNode = document.getElementById("newItemBtn");
 const listContainerNode = document.getElementById("listContainer");
-const trashSwitchNode = document.getElementById("trashSwitch");
+const trashSwitchNode = document.getElementById("trashSwitchBtn");
 const trashContainerNode = document.getElementById("trashContainer");
 
 // Utility Functions

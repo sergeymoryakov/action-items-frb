@@ -1,121 +1,133 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyBf5QBUUQ3EZGXw-pEKsBAo4J2ssdNCOv4",
-    authDomain: "action-items-firebase.firebaseapp.com",
-    projectId: "action-items-firebase",
-    storageBucket: "action-items-firebase.appspot.com",
-    messagingSenderId: "453868384210",
-    appId: "1:453868384210:web:b2d8bd1b94e38bd8f9a20b",
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-class Model {
-    constructor(db) {
-        this.db = db;
-    }
-
-    async get(COLLECTION_NAME) {
-        const ref = collection(this.db, COLLECTION_NAME);
-        const q = query(ref, orderBy("createdAt", "desc"));
-        const actionItemsDb = [];
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            const itemDb = {};
-            itemDb.id = doc.id;
-            itemDb.text = doc.data().text;
-            itemDb.completed = doc.data().completed;
-            itemDb.hidden = doc.data().hidden;
-            itemDb.createdAt = doc.data().createdAt;
-            actionItemsDb.push(itemDb);
-        });
-        return actionItemsDb;
-    }
-
-    // ... other Firebase interaction methods (add, update, delete) will go here ...
-
-    addItemToFirestore(item) {
-        // ... existing code to add item to Firestore ...
-    }
-
-    updateItemInFirestore(item) {
-        // ... existing code to update item in Firestore ...
-    }
-
-    deleteItemFromFirestore(itemId) {
-        // ... existing code to delete item from Firestore ...
-    }
-
-    // ... any other methods related to data manipulation and Firebase operations ...
-}
-
-class View {
+// Model Class
+class ActionItemModel {
     constructor() {
-        this.newItemInputNode = document.getElementById("newItemInput");
-        this.newItemBtnNode = document.getElementById("newItemBtn");
-        this.listContainerNode = document.getElementById("listContainer");
-        this.trashSwitchNode = document.getElementById("trashSwitch");
-        this.trashContainerNode = document.getElementById("trashContainer");
-    }
-
-    renderActiveList(actionItems) {
-        // ... existing rendering code using actionItems ...
-    }
-
-    // ... other DOM interaction methods will go here ...
-
-    renderTrashList(actionItems) {
-        // ... existing rendering code using actionItems ...
-    }
-
-    clearInputField() {
-        // ... existing code to clear input field ...
-    }
-
-    // ... other methods related to DOM interactions and UI rendering ...
-}
-
-class Controller {
-    constructor(model, view) {
-        this.model = model;
-        this.view = view;
+        this.dbName = "actionItems";
         this.actionItems = [];
     }
 
-    async initializeAppData() {
-        this.actionItems = await this.model.get(DB_NAME);
-        this.view.renderActiveList(this.actionItems);
+    async initializeData() {
+        this.actionItems = await this.get();
     }
 
-    // ... other methods that manage the flow between Model and View will go here ...
+    // ... Code to fetch data from Firestore
+    async get() {
+        const collectionRef = collection(db, this.dbName);
+        const q = query(collectionRef, orderBy("createdAt", "desc"));
 
-    handleNewItemButtonClick() {
-        // Logic to handle when a new item is added.
-        // This should involve getting data from the view, updating the model, and then updating the view.
+        const actionItemsDb = [];
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+            const itemDb = {
+                id: doc.id,
+                text: doc.data().text,
+                completed: doc.data().completed,
+                hidden: doc.data().hidden,
+                createdAt: doc.data().createdAt.toDate(), // Convert Firestore timestamp to JavaScript Date object
+            };
+            actionItemsDb.push(itemDb);
+            console.log(
+                `Document "${doc.data().text}", id = "${doc.id}" has been read.`
+            );
+        });
+
+        this.actionItems = actionItemsDb; // Update the local actionItems array with data from Firestore
+        return actionItemsDb; // Return the action items fetched from Firestore
     }
 
-    handleCheckboxChange() {
-        // Logic to handle checkbox changes (marking items as complete/incomplete).
+    async addItem(item) {
+        // ... Code to add an item to Firestore
     }
 
-    // ... other event handling methods and logic to manage the flow between Model and View ...
-
-    attachEventListeners() {
-        // Attach event listeners to DOM elements.
-        // For instance:
-        // this.view.newItemBtnNode.addEventListener('click', this.handleNewItemButtonClick.bind(this));
+    async updateItem(itemId, updatedFields) {
+        // ... Code to update an item in Firestore
     }
 
-    start() {
-        this.initializeAppData();
-        this.attachEventListeners();
+    async deleteItem(itemId) {
+        // ... Code to delete an item from Firestore
     }
 }
 
-// Create instances of Model, View, and Controller
-const model = new Model(db);
-const view = new View();
-const controller = new Controller(model, view);
+// View Class
+class ActionItemView {
+    constructor(controller) {
+        this.controller = controller;
+        this.newItemInputNode = document.getElementById("newItemInput");
+        this.newItemBtnNode = document.getElementById("newItemBtn");
+        this.listContainerNode = document.getElementById("listContainer");
+        this.trashSwitchBtnNode = document.getElementById("trashSwitchBtn");
+        this.trashContainerNode = document.getElementById("trashContainer");
+        this.TRASH_OPEN_CLASSNAME = "trash-bin-open";
 
-// Start the application
-controller.start();
+        this.newItemBtnNode.addEventListener("click", () =>
+            this.handleNewItemBtn()
+        );
+        this.trashSwitchBtnNode.addEventListener("click", () =>
+            this.handleTrashSwitchBtn()
+        );
+    }
+
+    handleNewItemBtn() {
+        const newItemFromCustomer = {
+            text: this.newItemInputNode.value,
+            completed: false,
+            hidden: false,
+            createdAt: serverTimestamp(),
+        };
+
+        this.controller.addItem(newItemFromCustomer);
+        this.newItemInputNode.value = "";
+    }
+
+    handleTrashSwitchBtn() {
+        this.trashSwitchBtnNode.classList.toggle(this.TRASH_OPEN_CLASSNAME);
+        const binOpen = this.trashSwitchBtnNode.classList.contains(
+            this.TRASH_OPEN_CLASSNAME
+        );
+
+        if (!binOpen) {
+            this.clearTrashList();
+        } else {
+            this.renderTrashList();
+        }
+    }
+
+    // ... Other view-related methods (rendering lists, handling button clicks, etc.)
+}
+
+// Controller Class
+class ActionItemController {
+    constructor(model, view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    async initializeApp() {
+        await this.model.initializeData();
+        this.view.renderActiveList();
+    }
+
+    addItem(item) {
+        this.model.addItem(item);
+        this.view.renderActiveList();
+    }
+
+    updateItem(itemId, updatedFields) {
+        this.model.updateItem(itemId, updatedFields);
+    }
+
+    deleteItem(itemId) {
+        this.model.deleteItem(itemId);
+    }
+
+    // ... Other controller-related methods (handling user actions, updating model and view, etc.)
+}
+
+// Initialize the application
+function initializeAppMain() {
+    const model = new ActionItemModel();
+    const view = new ActionItemView(new ActionItemController(model, view));
+    controller.initializeApp();
+}
+
+initializeAppMain();
