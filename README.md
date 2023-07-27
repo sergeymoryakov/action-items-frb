@@ -37,7 +37,7 @@ This application allows users to manage their action items with capabilities to 
 
 ### Run the Application (using Parcel or your preferred method):
 
-<code>parcel index.html</code>
+<code>npm run start</code>
 
 The application should now be running on <code>http://localhost:1234/</code> or the respective port provided by your tool.
 
