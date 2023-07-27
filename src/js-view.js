@@ -1,19 +1,19 @@
-import { initializeApp } from "firebase/app";
-import {
-    getFirestore,
-    updateDoc,
-    collection,
-    doc,
-    setDoc,
-    deleteDoc,
-    getDocs,
-    serverTimestamp,
-    query,
-    orderBy,
-} from "firebase/firestore";
-import { v4 as uuidv4 } from "uuid";
-import { firebaseKeys, DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants";
-import { actionItems } from "./js-constants";
+// import { initializeApp } from "firebase/app";
+// import {
+//     getFirestore,
+//     updateDoc,
+//     collection,
+//     doc,
+//     setDoc,
+//     deleteDoc,
+//     getDocs,
+//     serverTimestamp,
+//     query,
+//     orderBy,
+// } from "firebase/firestore";
+// import { v4 as uuidv4 } from "uuid";
+// import { firebaseKeys, DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants.js";
+import { storeInstance } from "./js-constants.js";
 
 // Module View
 export class View {
@@ -106,7 +106,7 @@ export class View {
         this.clearActiveList();
 
         // Create list item and append list container
-        actionItems.forEach((item) => {
+        storeInstance.actionItems.forEach((item) => {
             if (!item.hidden) {
                 const listItem = this.createListItem(item);
                 this.listContainerNode.appendChild(listItem);
@@ -133,7 +133,7 @@ export class View {
         this.clearTrashList();
 
         // Create list item and append list container
-        actionItems.forEach((item) => {
+        storeInstance.actionItems.forEach((item) => {
             if (item.hidden) {
                 const trashItem = this.createTrashItem(item);
                 this.trashContainerNode.appendChild(trashItem);
