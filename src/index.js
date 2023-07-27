@@ -13,11 +13,7 @@ import {
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { firebaseKeys, DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants.js";
-
-// TO-DO NEXT STEP:
-// import { actionItems } from "./js-constants.js";
-// Initialize Global Variable
-let actionItems = [];
+import { storeInstance } from "./js-constants.js";
 
 // Module View
 class View {
@@ -110,7 +106,7 @@ class View {
         this.clearActiveList();
 
         // Create list item and append list container
-        actionItems.forEach((item) => {
+        storeInstance.actionItems.forEach((item) => {
             if (!item.hidden) {
                 const listItem = this.createListItem(item);
                 this.listContainerNode.appendChild(listItem);
@@ -137,7 +133,7 @@ class View {
         this.clearTrashList();
 
         // Create list item and append list container
-        actionItems.forEach((item) => {
+        storeInstance.actionItems.forEach((item) => {
             if (item.hidden) {
                 const trashItem = this.createTrashItem(item);
                 this.trashContainerNode.appendChild(trashItem);
@@ -242,7 +238,7 @@ class Controller {
     }
 
     initializeAppData = async () => {
-        actionItems = await this.model.get(DB_NAME);
+        storeInstance.actionItems = await this.model.get(DB_NAME);
         this.view.renderActiveList();
     };
 
@@ -258,7 +254,7 @@ class Controller {
     };
 
     addItem = (newActionItem) => {
-        actionItems.push(newActionItem);
+        storeInstance.actionItems.push(newActionItem);
     };
 
     generateUniqueId() {
@@ -271,7 +267,9 @@ class Controller {
         const itemId = checkbox.id.split("_")[1];
 
         // Find the item in the local array
-        const item = actionItems.find((item) => item.id === itemId);
+        const item = storeInstance.actionItems.find(
+            (item) => item.id === itemId
+        );
 
         if (item) {
             // Toggle the completed state
@@ -294,7 +292,9 @@ class Controller {
         const itemId = button.id.split("_")[1];
 
         // Update hidden status for item with relevant id:
-        const item = actionItems.find((item) => item.id === itemId);
+        const item = storeInstance.actionItems.find(
+            (item) => item.id === itemId
+        );
         if (item) {
             item.hidden = true;
             console.log(
@@ -319,14 +319,16 @@ class Controller {
         }
 
         // // Update hidden status for item with relevant id:
-        // const item = actionItems.find((item) => item.id === itemId);
+        // const item = storeInstance.actionItems.find((item) => item.id === itemId);
 
         try {
             // Delete from Firestore
             this.model.deleteItemFromFireStore(itemId);
 
             // If successful, delete from local array
-            actionItems = actionItems.filter((item) => item.id !== itemId);
+            storeInstance.actionItems = storeInstance.actionItems.filter(
+                (item) => item.id !== itemId
+            );
             console.log(
                 `Document with ID: ${itemId} has been deleted from Firestore`
             );
@@ -341,7 +343,9 @@ class Controller {
         const itemId = button.id.split("_")[1];
 
         // Update hidden status for item with relevant id:
-        const item = actionItems.find((item) => item.id === itemId);
+        const item = storeInstance.actionItems.find(
+            (item) => item.id === itemId
+        );
         if (item) {
             item.hidden = false;
             console.log(
