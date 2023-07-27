@@ -13,4 +13,10 @@ export const DB_NAME = "actionItems";
 export const TRASH_OPEN_CLASSNAME = "trash-bin-open";
 
 // Initialize Global Variable
-export let actionItems = [];
+class Store {
+    constructor() {
+        this.actionItems = [];
+    }
+}
+
+export var storeInstance = new Store();
