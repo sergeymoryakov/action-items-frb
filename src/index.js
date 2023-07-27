@@ -12,23 +12,12 @@ import {
     orderBy,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { firebaseKeys, DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBf5QBUUQ3EZGXw-pEKsBAo4J2ssdNCOv4",
-    authDomain: "action-items-firebase.firebaseapp.com",
-    projectId: "action-items-firebase",
-    storageBucket: "action-items-firebase.appspot.com",
-    messagingSenderId: "453868384210",
-    appId: "1:453868384210:web:b2d8bd1b94e38bd8f9a20b",
-};
-// Constants and Global Variables
-const DB_NAME = "actionItems";
-const TRASH_OPEN_CLASSNAME = "trash-bin-open";
+// TO-DO NEXT STEP:
+// import { actionItems } from "./js-constants.js";
+// Initialize Global Variable
 let actionItems = [];
-
-// Initialize Firebase and Firestore Cloud
-const appFirebase = initializeApp(firebaseConfig);
-const db = getFirestore(appFirebase);
 
 // Module View
 class View {
@@ -174,14 +163,18 @@ class View {
         });
     };
     attachEventListeners() {
-        this.newItemBtnNode.addEventListener("click", () =>
-            this.controller.handleNewItemBtn()
+        this.newItemBtnNode.addEventListener("click", (event) =>
+            this.controller.handleNewItemBtn(event)
         );
-        this.trashSwitchBtnNode.addEventListener("click", () =>
-            this.controller.handleTrashSwitchBtn()
+        this.trashSwitchBtnNode.addEventListener("click", (event) =>
+            this.controller.handleTrashSwitchBtn(event)
         );
     }
 }
+
+// Initialize Firebase and Firestore Cloud
+const appFirebase = initializeApp(firebaseKeys);
+const db = getFirestore(appFirebase);
 
 // Module Model
 class Model {

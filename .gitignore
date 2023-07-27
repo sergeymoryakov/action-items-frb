@@ -4,6 +4,9 @@
 # Ignore the dist folder
 dist/
 
+# Ignore the drafts folder
+drafts/
+
 # Ignore the prod folder
 prod/
 

@@ -1,3 +1,4 @@
+// Initialize Keys and Constants
 export const firebaseKeys = {
     apiKey: "AIzaSyBf5QBUUQ3EZGXw-pEKsBAo4J2ssdNCOv4",
     authDomain: "action-items-firebase.firebaseapp.com",
@@ -10,3 +11,6 @@ export const firebaseKeys = {
 // Constants and Global Variables
 export const DB_NAME = "actionItems";
 export const TRASH_OPEN_CLASSNAME = "trash-bin-open";
+
+// Initialize Global Variable
+export let actionItems = [];
