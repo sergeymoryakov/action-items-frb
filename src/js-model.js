@@ -7,17 +7,10 @@ import {
     setDoc,
     deleteDoc,
     getDocs,
-    // serverTimestamp,
     query,
     orderBy,
 } from "firebase/firestore";
-// import { v4 as uuidv4 } from "uuid";
-import {
-    firebaseKeys,
-    DB_NAME,
-    // TRASH_OPEN_CLASSNAME
-} from "./js-constants.js";
-// import { storeInstance } from "./js-constants.js";
+import { firebaseKeys, DB_NAME } from "./js-constants.js";
 
 // Initialize Firebase and Firestore Cloud
 const appFirebase = initializeApp(firebaseKeys);

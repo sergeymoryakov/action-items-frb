@@ -1,21 +1,5 @@
-// import { initializeApp } from "firebase/app";
-// import {
-//     getFirestore,
-//     updateDoc,
-//     collection,
-//     doc,
-//     setDoc,
-//     deleteDoc,
-//     getDocs,
-//     serverTimestamp,
-//     query,
-//     orderBy,
-// } from "firebase/firestore";
-// import { v4 as uuidv4 } from "uuid";
-// import { firebaseKeys, DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants.js";
 import { storeInstance } from "./js-constants.js";
 
-// Module View
 export class View {
     constructor(controller) {
         this.controller = controller;

@@ -1,18 +1,6 @@
-// import { initializeApp } from "firebase/app";
-import {
-    // getFirestore,
-    // updateDoc,
-    // collection,
-    // doc,
-    // setDoc,
-    // deleteDoc,
-    // getDocs,
-    serverTimestamp,
-    // query,
-    // orderBy,
-} from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
-import { firebaseKeys, DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants.js";
+import { DB_NAME, TRASH_OPEN_CLASSNAME } from "./js-constants.js";
 import { storeInstance } from "./js-constants.js";
 import { View } from "./js-view.js";
 import { Model } from "./js-model.js";
